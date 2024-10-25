@@ -1,0 +1,2 @@
+# PROYECTOMC2
+### VIDEO EXPLICACION https://youtu.be/YrtIXcS8D9A
