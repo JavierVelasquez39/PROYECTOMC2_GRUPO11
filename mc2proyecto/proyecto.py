@@ -22,42 +22,53 @@ class GraphVisualization(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
+        # Etiqueta para la gráfica original
+        self.original_graph_label = tk.Label(self.master, text="Grafo Original", bg="#003366", fg="white")
+        self.original_graph_label.grid(row=0, column=0, padx=5, pady=5, sticky="n")
+
         # Área para mostrar el grafo original
         self.figure = plt.Figure(figsize=(5, 4), dpi=100)
         self.canvas = FigureCanvasTkAgg(self.figure, master=self.master)
-        self.canvas.get_tk_widget().grid(row=0, column=0, padx=5, pady=5)
+        self.canvas.get_tk_widget().grid(row=1, column=0, padx=5, pady=5, sticky="n")
+
+        # Etiqueta para la gráfica de búsqueda en anchura
+        self.bfs_graph_label = tk.Label(self.master, text="Búsqueda en Anchura", bg="#003366", fg="white")
+        self.bfs_graph_label.grid(row=0, column=1, padx=5, pady=5, sticky="n")
 
         # Área para mostrar el grafo de búsqueda en anchura
         self.bfs_figure = plt.Figure(figsize=(5, 4), dpi=100)
         self.bfs_canvas = FigureCanvasTkAgg(self.bfs_figure, master=self.master)
-        self.bfs_canvas.get_tk_widget().grid(row=0, column=1, padx=5, pady=5)
+        self.bfs_canvas.get_tk_widget().grid(row=1, column=1, padx=5, pady=5, sticky="n")
 
         # Etiqueta para entrada de vértices
         self.vertex_label = tk.Label(self.master, text="Entrada de Vértices:", bg="#336699", fg="white")
-        self.vertex_label.grid(row=1, column=0, padx=5, pady=5, sticky="ew")
+        self.vertex_label.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
         # Entrada de vértices
         self.vertex_entry = tk.Entry(self.master, bg="#6699CC", fg="white")
-        self.vertex_entry.grid(row=2, column=0, padx=5, pady=5, sticky="ew")
+        self.vertex_entry.grid(row=3, column=0, padx=5, pady=5, sticky="ew")
         # Etiqueta para entrada de aristas
         self.edge_label = tk.Label(self.master, text="Entrada de Aristas:", bg="#336699", fg="white")
-        self.edge_label.grid(row=1, column=1, padx=5, pady=5, sticky="ew")
+        self.edge_label.grid(row=2, column=1, padx=5, pady=5, sticky="ew")
         # Entrada de aristas
         self.edge_entry = tk.Entry(self.master, bg="#6699CC", fg="white")
-        self.edge_entry.grid(row=2, column=1, padx=5, pady=5, sticky="ew")
+        self.edge_entry.grid(row=3, column=1, padx=5, pady=5, sticky="ew")
         # Botón para agregar aristas
         self.add_button = tk.Button(self.master, text="Agregar", command=self.add_graph, bg="#336699", fg="white")
-        self.add_button.grid(row=2, column=2, padx=5, pady=5, sticky="ew")
+        self.add_button.grid(row=4, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
         # Tabla para mostrar vértices y aristas
         self.table_label = tk.Label(self.master, text="Vértices y Aristas:", bg="#336699", fg="white")
-        self.table_label.grid(row=3, column=0, columnspan=3, padx=5, pady=5, sticky="ew")
-        self.treeview = ttk.Treeview(self.master, columns=("Vértices", "Aristas"), show="headings")
-        self.treeview.grid(row=4, column=0, columnspan=3, padx=5, pady=5, sticky="ew")
+        self.table_label.grid(row=5, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
+        self.treeview = ttk.Treeview(self.master, columns=("Vértices", "Aristas"), show="headings", height=10)
+        self.treeview.grid(row=6, column=0, columnspan=2, padx=5, pady=5, sticky="ew")
         self.treeview.heading("Vértices", text="Vértices")
         self.treeview.heading("Aristas", text="Aristas")
 
     def add_graph(self):
         vertices = self.vertex_entry.get().split(",")
         edges = self.edge_entry.get().split(",")
+        self.original_graph.clear()
+        self.vertices.clear()
+        self.edges.clear()
         for edge in edges:
             if "--" in edge:
                 v1, v2 = edge.split("--")
